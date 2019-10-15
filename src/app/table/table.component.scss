@@ -1,0 +1,72 @@
+/* table */
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #CCC;
+    padding: 5px;
+}
+.table .thead {
+    font-weight: bold;
+}
+.table .tr {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 5px;
+}
+
+.table  .tr {
+    display: table;
+    width: 100%;
+}
+.table.bordered .tr {
+    border-bottom: 1px solid #CCC;
+}
+.table .tr .td {
+    display: table-cell;
+}
+@media (min-width: 320px) and (max-width: 1024px) {
+    .table {
+        flex-direction: row;
+        position: relative;
+        flex-wrap: wrap;
+    }
+    .table .thead {
+        width: 38%;
+        border-right: 1px solid #CCC;
+        margin-right: 5px;
+    }
+    .table .tbody {
+        width : 60%;
+        height: 150px;
+        overflow-y: auto;
+        scroll-snap-type: y mandatory;
+    }
+    
+    .table.bordered .thead .tr {
+        border-bottom: none;
+        display: block;
+    }
+    .table .tbody .tr {
+        border-bottom: none;
+        display: block;
+        border-bottom: 2px solid #000;
+        scroll-snap-align: start;   
+    }
+    .table .tr .td {
+        display:block;
+        width: 100%;
+        padding: 5px;
+        text-align: left;
+    }
+    .table.bordered .tr .td {
+        border-bottom: 1px solid #CCC;
+    }
+    .table.bordered .tr .td:last-of-type {
+        border-bottom: none;
+    }
+
+}

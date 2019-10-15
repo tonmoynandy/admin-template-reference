@@ -1,0 +1,45 @@
+.tab {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    .tab-menu {
+        display: table;
+        justify-content: space-around;
+        .tab-menu-item {
+            display: table-cell;
+            padding: 10px;
+            margin: 2px;
+            text-align: center;
+            border-bottom: 1px solid #CCC;
+            &.active{
+                border-bottom: 1px solid #000;
+            }
+        }
+    }
+    .tab-content-item {
+        display: none;
+        &.active{
+            display: block;
+        }
+    }
+    &.vertical {
+        
+        flex-flow: inherit;
+        justify-content: space-between;
+        .tab-menu {
+            width: 20%;
+            .tab-menu-item {
+                display: block;
+                text-align: left;
+                border-right: 1px solid #CCC;
+                border-bottom: none;
+                &.active{
+                    border-right: 1px solid #000;
+                }
+            }
+        }
+        .tab-content {
+            width: 78%;
+        }
+    }
+}
