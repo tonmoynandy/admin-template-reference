@@ -11,5 +11,7 @@ export class TabComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  onchangeTabEvent(tab) {
+    console.log(tab);
+  }
 }

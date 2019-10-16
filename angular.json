@@ -133,6 +133,41 @@
           }
         }
       }
+    },
+    "chatbox": {
+      "root": "projects/chatbox",
+      "sourceRoot": "projects/chatbox/src",
+      "projectType": "library",
+      "prefix": "ngx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/chatbox/tsconfig.lib.json",
+            "project": "projects/chatbox/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/chatbox/src/test.ts",
+            "tsConfig": "projects/chatbox/tsconfig.spec.json",
+            "karmaConfig": "projects/chatbox/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/chatbox/tsconfig.lib.json",
+              "projects/chatbox/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }
   },
   "defaultProject": "template"

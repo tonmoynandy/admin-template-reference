@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "chatbox": [
+        "dist/chatbox"
+      ],
+      "chatbox/*": [
+        "dist/chatbox/*"
+      ]
+    }
   }
 }

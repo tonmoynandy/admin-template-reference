@@ -6,6 +6,7 @@
         display: table;
         justify-content: space-around;
         .tab-menu-item {
+            cursor: pointer;
             display: table-cell;
             padding: 10px;
             margin: 2px;
@@ -16,12 +17,7 @@
             }
         }
     }
-    .tab-content-item {
-        display: none;
-        &.active{
-            display: block;
-        }
-    }
+    
     &.vertical {
         
         flex-flow: inherit;

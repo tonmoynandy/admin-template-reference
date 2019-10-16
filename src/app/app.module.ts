@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { TabComponent } from './tab/tab.component';
 import { TabDirective } from './tab/tab.directive';
+import { ChatboxComponent } from './chatbox/chatbox.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     TabComponent,
-    TabDirective
+    TabDirective,
+    ChatboxComponent
   ],
   imports: [
     BrowserModule,

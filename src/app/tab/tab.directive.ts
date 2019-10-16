@@ -1,41 +1,69 @@
-import { Directive, ElementRef, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Directive({
   selector: '[app-tab]'
 })
-export class TabDirective implements OnInit, OnDestroy {
-
+export class TabDirective implements OnInit {
+  @Output() tabchange = new EventEmitter();
   constructor(private elRef: ElementRef) {}
 
   ngOnInit() {
     let hostElement = this.elRef.nativeElement;
-    if (!hostElement.querySelector('.tab-menu-item.active')) {
-      hostElement.querySelector('.tab-menu-item').classList.add('active');
-      hostElement.querySelector('.tab-content-item').classList.add('active');
-    } else {
-      var activeItem = Array.prototype.indexOf.call(hostElement.querySelectorAll('.tab-menu-item'), hostElement.querySelector('.tab-menu-item.active'));
-      activeItem = hostElement.querySelectorAll('.tab-content-item').item(activeItem);
-      activeItem.classList.add('active');
-    }
-    let tabItems = hostElement.querySelectorAll('.tab-menu-item');
-    Array.from(tabItems).forEach(function(element:any) {
-      element.addEventListener('click', function(e:any) {
-        hostElement.querySelector('.tab-menu-item.active').classList.remove('active');
-        
-        if (e.target.classList.value.indexOf('tab-menu-item') > -1) {
-          e.target.classList.add('active'); 
-        } else {
-          e.target.parentElement.classList.add('active'); 
-        }
-        let activeMenu = Array.prototype.indexOf.call(hostElement.querySelectorAll('.tab-menu-item'), hostElement.querySelector('.tab-menu-item.active'));
-        hostElement.querySelector('.tab-content-item.active').classList.remove('active');
-        hostElement.querySelectorAll('.tab-content-item').item(activeMenu).classList.add('active');
+    var tabObj = this;
+    if (hostElement.querySelector('.tab-menu') && hostElement.querySelector('.tab-content')) {
+
+      var tabItems = hostElement.querySelector('.tab-menu').children;
+      var tabContainerDom = hostElement.querySelector('.tab-content');
+      let tabContent = tabContainerDom.innerHTML;
+      let tabContentDom = document.createElement('div');
+      tabContentDom.innerHTML = tabContent;
+      tabContainerDom.innerHTML = '';
+      var activeItem = 0;
+      if (hostElement.querySelector('.active')) {
+        activeItem = Array.prototype.indexOf.call(tabItems, hostElement.querySelector('.active'));
+      }
+      tabItems[activeItem].classList.add('active');
+      tabContainerDom.innerHTML = tabContentDom.children.item(activeItem).outerHTML;
+      
+      new Promise((resolve, reject)=>{
+        Array.from(tabItems).forEach((element:any, index:number) =>{
+          if (!element.getAttribute('id')) {
+            element.setAttribute('id', 'tab-'+index);
+          }
+          element.addEventListener('click', function(e:any) {
+            hostElement.querySelector('.active').classList.remove('active');
+            tabContainerDom.innerHTML = '';
+            if (e.target.parentElement == hostElement.querySelector('.tab-menu')) {
+              e.target.classList.add('active'); 
+            } else {
+              e.target.parentElement.classList.add('active'); 
+            }
+            let activeMenu =  Array.prototype.indexOf.call(tabItems, hostElement.querySelector('.active'));
+            tabContainerDom.innerHTML = tabContentDom.children.item(activeMenu).outerHTML;
+  
+            tabObj.emitOnchnageEvent(activeMenu, tabItems);
+          });
+          
+        });
+        resolve(true);
+      }).then((resolveData)=>{
+        this.emitOnchnageEvent(activeItem, tabItems);
       });
-    });
+    } else {
+      console.error("'.tab-menu' or '.tab-content' is missing");
+    }
    
   }
 
-  ngOnDestroy() {
-    // this.elRef.nativeElement.removeEventListener('mouseenter', this.onMouseEnter);
+  emitOnchnageEvent( activeMenu, tabItems) {
+    //** ONLY FOR ANGULAR  ***//
+    this.tabchange.emit({
+      index: activeMenu,
+      current : tabItems[activeMenu].getAttribute('id'),
+      previous: (tabItems[activeMenu-1])?tabItems[activeMenu-1].getAttribute('id'):null,
+      next: (tabItems[activeMenu+1])?tabItems[activeMenu+1].getAttribute('id'):null,
+    });
+    //** END  ***//
   }
+
 }
